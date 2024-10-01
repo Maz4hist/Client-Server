@@ -18,6 +18,11 @@ int main(int argc, char* argv[])
     string input;
     cout << "Server is working" << endl;
     Server* s = new Server(port);
+    if (s->StartServer() == -1)
+    {
+        delete s;
+        return -1;
+    }
     thread serverThread(&Server::Listen, s);
     
     while (true)
@@ -25,7 +30,7 @@ int main(int argc, char* argv[])
         cin >> input;
         if (input == "exit")
         {
-            s->stopServer();
+            s->StopServer();
             break;
         }
         cout << input << endl;

@@ -26,7 +26,7 @@ void Client::Connection()
 {
     strncpy(buffer, (*GetDateTime() + " " + name).c_str(), sizeof(buffer) - 1);
     if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-        throw runtime_error("Client's socket was not created");
+        cerr << "Client's socket was not created" << endl;
     if (connect(clientSocket, (sockaddr*)&serverAddress, sizeof(serverAddress)) == -1)
         cerr << "Connection error" << endl;
     else if (send(clientSocket, buffer, sizeof(buffer), 0) == -1)

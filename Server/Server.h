@@ -16,6 +16,7 @@ private:
 public:
     Server(int port);
     ~Server();
+    int StartServer();
     void Listen();
-    void stopServer();
+    void StopServer();
 };

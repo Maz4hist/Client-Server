@@ -12,18 +12,31 @@ Server::Server(int _port)
     address.sin_family = AF_INET;
     address.sin_port = htons(_port);
     address.sin_addr.s_addr = INADDR_ANY;
-
-    if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-        throw runtime_error("Socket was not created");
-    if(bind(serverSocket, (sockaddr*)&address, sizeof(address)) == -1)
-        throw runtime_error("Bind error");
-    if (listen(serverSocket, 10) == -1)
-        throw runtime_error("Server cant start listening");
 }
 
 Server::~Server()
 {
     close(serverSocket);
+}
+
+int Server::StartServer()
+{
+    if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
+        cerr << "Socket was not created" << endl;
+        return -1;
+    }
+    if(bind(serverSocket, (sockaddr*)&address, sizeof(address)) == -1)
+    {
+        cerr << "Bind error" << endl;
+        return -1;
+    }
+    if (listen(serverSocket, 10) == -1)
+    {
+        cerr << "Server cant start listening" << endl;
+        return -1;
+    }
+    return 0;
 }
 
 void Server::WriteLog(int* clientSocet)
@@ -70,7 +83,7 @@ void Server::Listen()
     }
 }
 
-void Server::stopServer() 
+void Server::StopServer() 
 { 
     isRunning = false;
     shutdown(serverSocket, SHUT_RDWR);
